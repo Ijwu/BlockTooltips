@@ -12,13 +12,7 @@ namespace BlockTooltips
 {
 	[ApiVersion(1,0)]
 	public class BlockTooltips : TerrariaPlugin
-	{		
-		
-		private Player ply
-		{
-			get { return Main.player[Main.myPlayer]; }
-		}
-		
+	{				
 		public override string Author 
 		{
 			get { return "Ijwu"; }
