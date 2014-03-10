@@ -30,12 +30,15 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\Build\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
     <Reference Include="Microsoft.Xna.Framework.Graphics" />
     <Reference Include="Raptor">
-      <HintPath>C:\Users\KassHuss\Desktop\raptor\Raptor.exe</HintPath>
+      <HintPath>References\Raptor.exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -46,7 +49,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="Terraria">
-      <HintPath>..\..\..\..\Steam\SteamApps\common\terraria\Terraria.exe</HintPath>
+      <HintPath>References\Terraria.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

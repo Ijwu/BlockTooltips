@@ -7,6 +7,8 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace BlockTooltips
 {
@@ -30,19 +32,19 @@ namespace BlockTooltips
 		
 		public override Version Version 
 		{
-			get { return new System.Version(1,0,0); }
+			get { return Assembly.GetExecutingAssembly().GetName().Version; }
 		}
 		
 		public override void Initialize()
 		{
 			Commands.Register(new Command(ToggleTooltips, "tooltip") 
-			                  {
-			                  	HelpText = new[]
-			                  	{
-                  					"Toggles tile highlight tooltips.",
-                  					"Tooltips appear near the bottom of the screen and depict the tile image and name."
-              					}
-			                  });
+			{
+				HelpText = new[]
+				{
+					"Toggles tile highlight tooltips.",
+					"Tooltips appear near the bottom of the screen and depict the tile image and name."
+              	}
+			});
 			                  					
 			GameHooks.Draw["Interface"] += OnDrawInterface;
 		}
@@ -70,6 +72,8 @@ namespace BlockTooltips
 			Tile tile = Main.tile[mouseTargetX, mouseTargetY];
 			
 			string tileName = ((TileTypes)tile.type).ToString();
+			tileName = Regex.Replace(tileName, "([a-z])([A-Z])", "$1 $2");
+
 			int textWidth = (int)Main.fontMouseText.MeasureString(tileName).X;
 				
 			int targetX = Main.screenWidth - (int)(Main.screenWidth * .5);
@@ -104,7 +108,7 @@ namespace BlockTooltips
 		public void ToggleTooltips(object o, CommandEventArgs e)
 		{
 			tooltipsEnabled = !tooltipsEnabled;
-			Utils.NewSuccessText("Tooltips have been " + (tooltipsEnabled ? "Enabled" : "Disabled"));
+			Raptor.Utils.NewSuccessText("Tooltips have been " + (tooltipsEnabled ? "Enabled" : "Disabled"));
 		}
 		
 		protected override void Dispose(bool disposing)
