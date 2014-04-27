@@ -49,27 +49,11 @@ namespace BlockTooltips
 			GameHooks.Draw["Interface"] += OnDrawInterface;
 		}
 		
-		private int mouseTargetX
-		{ 
-			get 
-			{
-				return (int)(((float)Main.mouseX + Main.screenPosition.X) / 16f);
-			}
-		}
-		
-		private int mouseTargetY
-		{
-			get 
-			{
-				return (int)(((float)Main.mouseY + Main.screenPosition.Y) / 16f);
-			}
-		}
-		
 		private bool tooltipsEnabled = true;
-		
+
 		public void OnDrawInterface(object o, GameHooks.DrawEventArgs e)
 		{
-			Tile tile = Main.tile[mouseTargetX, mouseTargetY];
+			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
 			
 			string tileName = ((TileTypes)tile.type).ToString();
 			tileName = Regex.Replace(tileName, "([a-z])([A-Z])", "$1 $2");
@@ -100,7 +84,8 @@ namespace BlockTooltips
 			if (tooltipsEnabled && tile.active())
 			{
 				e.SpriteBatch.DrawGuiRectangle(new Rectangle(targetX, targetY, width, height), new Color(100, 100, 100, 200));
-				e.SpriteBatch.Draw(Main.tileTexture[tile.type], new Vector2(targetX+16, targetY+16), new Rectangle?(new Rectangle(tile.frameX, tile.frameY, 16, 16)), Color.White);
+				if (Main.tileTexture[tile.type] != null)
+					e.SpriteBatch.Draw(Main.tileTexture[tile.type], new Vector2(targetX + 16, targetY + 16), new Rectangle?(new Rectangle(tile.frameX, tile.frameY, 16, 16)), Color.White);
 				e.SpriteBatch.DrawGuiText(tileName, new Vector2(targetX+34, targetY+16), Color.White, Main.fontMouseText);
 			}
 		}
